@@ -7,7 +7,8 @@ try {
         & $Python -m venv .venv
         if ($LASTEXITCODE -ne 0) { throw 'Install Python 3.11+ x64, then run again with -Python <path to python.exe>.' }
     }
-    $lockHash = (Get-FileHash -LiteralPath 'requirements.lock' -Algorithm SHA256).Hash
+    $lockHash = & .\.venv\Scripts\python.exe -c "from pathlib import Path; from hashlib import sha256; print(sha256(Path('requirements.lock').read_bytes()).hexdigest())"
+    if ($LASTEXITCODE -ne 0) { throw 'Could not read requirements.lock.' }
     $marker = '.venv\kidsafe-requirements.sha256'
     if (-not (Test-Path -LiteralPath $marker) -or (Get-Content -LiteralPath $marker -Raw).Trim() -ne $lockHash) {
         & .\.venv\Scripts\python.exe -m pip install -r requirements.lock
