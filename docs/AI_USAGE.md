@@ -166,3 +166,5 @@ Trạng thái: nhật ký chuẩn bị, chưa phải khai báo đã hoàn thành
 | Chưa có | — | — | — | — | — | Chưa chạy | Chưa triển khai |
 
 Ghi cả code, test, thiết kế, nội dung báo cáo, biểu đồ và hỗ trợ sửa lỗi nếu có dùng AI. Không bịa citation hoặc số liệu. Nếu thông tin AI sai, ghi cách phát hiện và sửa khi có ảnh hưởng đến sản phẩm. Không gửi dữ liệu trẻ thật, mật khẩu, token hoặc khóa riêng vào prompt.
+
+Bàn giao demo LAN 2026-11-20. Codex kiểm tra 158 test đạt, 31 thao tác trình duyệt đạt và smoke test cửa sổ native đạt với dữ liệu mẫu. Đối chiếu SHA-256 bộ cài. Bổ sung hướng dẫn docs/DEMO_HAI_MAY.md và sửa launcher hiển thị địa chỉ bind, đánh dấu dependency sau khi cài thành công. Nghiệm thu service, DNS và khóa máy trên máy con thật vẫn cần thực hiện.

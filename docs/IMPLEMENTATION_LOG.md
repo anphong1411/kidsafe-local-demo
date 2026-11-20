@@ -197,3 +197,5 @@ Nguồn kỹ thuật kiểm tra: [FastAPI HTTPS](https://fastapi.tiangolo.com/de
 - Các agent phụ gặp giới hạn sử dụng giữa đợt; agent chính tiếp tục sửa/nối code và chạy kiểm thử. Không coi rà soát độc lập là chứng nhận an toàn toàn bộ code.
 - G-UI chưa đạt: chưa có máy trẻ/VM được xác minh, không có Wireshark; runtime/service và peer verification chưa được thử thực dưới user thường. App monitor + cửa sổ giải thích/start-stop reports chưa nối đủ. Chưa có bộ cài hoàn chỉnh, DNS snapshot/rollback hoặc SCM recovery được thử. Không chuyển sang dashboard để vượt cổng người dùng đã chốt.
 - Cần tiếp tục: hoàn thiện các điểm runtime phía trên, bổ sung regression tests; sau đó nghiệm thu Windows lab cho S5–S7 và G-UI rồi S4/S8. M1/M3/M4/M5/M6, báo cáo và video còn thiếu bằng chứng thật; D019/D020/D021 vẫn chờ như trước.
+
+Bàn giao demo LAN 2026-11-20. Codex kiểm tra 158 test đạt, 31 thao tác trình duyệt đạt và smoke test cửa sổ native đạt với dữ liệu mẫu. Đối chiếu SHA-256 bộ cài. Bổ sung hướng dẫn docs/DEMO_HAI_MAY.md và sửa launcher hiển thị địa chỉ bind, đánh dấu dependency sau khi cài thành công. Nghiệm thu service, DNS và khóa máy trên máy con thật vẫn cần thực hiện.

@@ -244,3 +244,5 @@ Phần tạo hồ sơ chuẩn bị đã hoàn thành bản 1. Việc giảng vi�
 Kiểm tra bổ sung ngày 2026-11-04: 18 Markdown root/docs, 34 liên kết nội bộ hợp lệ, đủ 26 ID quyết định D001–D026 không trùng; ma trận vẫn 66 yêu cầu. SHA-256 Design-PH.md khớp lúc nhận, nguồn không bị sửa. UTF-8/code fence và diff whitespace không lỗi; đây là kiểm tra tài liệu, chưa chạy phần mềm/UI.
 
 Đã trích và đọc văn bản XML đầy đủ; phần document không có đối tượng hình vẽ. Công cụ render Word đóng gói đã được thử nhưng không chạy vì máy không có `soffice.exe` trên PATH. Vì thế chưa kiểm tra bố cục trang bằng ảnh, không trích số trang và không khẳng định đã xem hình trang Word. Các locator Pxxx chỉ là số đoạn trong bản trích. Không cần sửa/cài ứng dụng để hoàn thành việc chuẩn bị văn bản này.
+
+Bàn giao demo LAN 2026-11-20. Codex kiểm tra 158 test đạt, 31 thao tác trình duyệt đạt và smoke test cửa sổ native đạt với dữ liệu mẫu. Đối chiếu SHA-256 bộ cài. Bổ sung hướng dẫn docs/DEMO_HAI_MAY.md và sửa launcher hiển thị địa chỉ bind, đánh dấu dependency sau khi cài thành công. Nghiệm thu service, DNS và khóa máy trên máy con thật vẫn cần thực hiện.

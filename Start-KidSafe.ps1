@@ -6,8 +6,13 @@ try {
     if (-not (Test-Path -LiteralPath '.venv\Scripts\python.exe')) {
         & $Python -m venv .venv
         if ($LASTEXITCODE -ne 0) { throw 'Install Python 3.11+ x64, then run again with -Python <path to python.exe>.' }
+    }
+    $lockHash = (Get-FileHash -LiteralPath 'requirements.lock' -Algorithm SHA256).Hash
+    $marker = '.venv\kidsafe-requirements.sha256'
+    if (-not (Test-Path -LiteralPath $marker) -or (Get-Content -LiteralPath $marker -Raw).Trim() -ne $lockHash) {
         & .\.venv\Scripts\python.exe -m pip install -r requirements.lock
         if ($LASTEXITCODE -ne 0) { throw 'Dependency installation failed; check network and retry pip install -r requirements.lock.' }
+        Set-Content -LiteralPath $marker -Value $lockHash -Encoding ascii
     }
     $labPath = Join-Path $RuntimeDirectory 'lab.json'
     if (-not (Test-Path -LiteralPath $labPath)) {
@@ -24,7 +29,8 @@ try {
             throw "Existing profile does not include $hostName. Use a NEW RuntimeDirectory to issue matching certificates; existing secrets are never overwritten."
         }
     }
-    Write-Host "KidSafe: https://localhost:$Port/login"
+    $browserHost = if ($Bind -eq '0.0.0.0' -and $CertificateHosts.Count) { $CertificateHosts[0] } elseif ($Bind -in '0.0.0.0','127.0.0.1') { 'localhost' } else { $Bind }
+    Write-Host "KidSafe: https://${browserHost}:$Port/login"
     Write-Host "Tai khoan: $($labConfig.demo_username)"
     Write-Host "Mat khau nam trong file rieng $labPath. Khong chia se file nay."
     Write-Host 'Nhan Ctrl+C de dung. LAN can certificate SAN dung IP/DNS server va CA tren may tre.'
