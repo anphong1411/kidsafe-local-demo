@@ -1,0 +1,70 @@
+{% macro icon(name) -%}
+<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+{% if name == 'overview' %}<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>
+{% elif name == 'time' %}<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18m-13 5h3m3 0h2"/>
+{% elif name == 'apps' %}<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 9v12m-3-15h.01m3 0h.01"/>
+{% elif name == 'web' %}<circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/>
+{% elif name == 'requests' %}<path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l-2 2v-10.5A8.5 8.5 0 0 1 10.5 3h2a8.5 8.5 0 0 1 8.5 8.5Z"/><path d="M8 10h8m-8 4h5"/>
+{% elif name == 'devices' %}<rect x="2" y="3" width="15" height="12" rx="2"/><path d="M6 21h7m-3.5-6v6"/><rect x="18" y="10" width="4" height="11" rx="1"/>
+{% elif name == 'reports' %}<path d="M4 3v18h17M9 17v-5m5 5V8m5 9V5"/>
+{% elif name == 'quick-control' %}<path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3" fill="var(--ground)"/><circle cx="15" cy="17" r="3" fill="var(--ground)"/>
+{% elif name == 'gear' %}<path d="m9 3-.6 2.2-2 .9-2-.6-2 3.5L4 10.5v3L2.4 15l2 3.5 2-.6 2 .9L9 21h4l.6-2.2 2-.9 2 .6 2-3.5-1.6-1.5v-3L19.6 9l-2-3.5-2 .6-2-.9L13 3Z"/><circle cx="11" cy="12" r="3"/>
+{% elif name == 'trash' %}<path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7"/>
+{% elif name == 'logout' %}<path d="M9 3H4v18h5m5-14 5 5-5 5m-7-5h12"/>
+{% elif name == 'menu' %}<path d="M4 6h16M4 12h16M4 18h16"/>
+{% elif name == 'external' %}<path d="M14 3h7v7m0-7L10 14m0-11H3v18h18v-7"/>
+{% endif %}</svg>
+{%- endmacro %}
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="htmx-config" content='{"includeIndicatorStyles":false,"allowEval":false,"allowScriptTags":false,"selfRequestsOnly":true,"historyCacheSize":0}'>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ title }} · KidSafe</title>
+  <link rel="stylesheet" href="/static/app.css">
+  <script src="/static/htmx.min.js" defer></script>
+  <script src="/static/app.js" defer></script>
+</head>
+<body data-view="{{ view }}" data-child="{{ child.id if child else '' }}">
+  <a class="skip" href="#content">Đến nội dung</a>
+  <div class="app-shell">
+    <aside class="sidebar" id="navigation" aria-label="Điều hướng phụ huynh" tabindex="-1">
+      <button type="button" class="sidebar-close" data-action="close-menu" aria-label="Đóng menu">×</button>
+      <a href="/" class="brand"><svg viewBox="0 0 32 36" aria-hidden="true"><path d="M16 2 29 7v11c0 8-13 16-13 16S3 26 3 18V7Z"/><path d="m10 17 4 4 8-9"/></svg>KidSafe</a>
+      <p class="nav-caption">Không gian phụ huynh</p>
+      <nav hx-boost="true" aria-label="Các trang">
+        {% for key,label in views.items() %}{% if key != 'privacy' %}
+        <a href="/app/{{ key }}{% if child %}?child={{ child.id }}{% endif %}" {% if key==view %}aria-current="page"{% endif %}>{{ icon(key) }}<span>{{ label }}</span></a>
+        {% endif %}{% endfor %}
+      </nav>
+      <div class="sidebar-foot">
+        {% set account_name = actor_name|default(actor.username, true) %}
+        <div class="avatar" aria-hidden="true">{{ account_name[0]|upper }}</div>
+        <div class="account-copy"><span class="account-name" title="{{ account_name }}">{{ account_name }}</span><span class="account-role">{{ 'Quản trị viên' if actor.role=='admin' else 'Phụ huynh' }}</span></div>
+        <button type="button" class="account-toggle" data-action="account-menu" aria-label="Cài đặt tài khoản" aria-haspopup="menu" aria-expanded="false" aria-controls="account-menu">{{ icon('gear') }}</button>
+        <div id="account-menu" class="account-menu" role="menu" aria-label="Cài đặt tài khoản" hidden>
+          <button type="button" role="menuitem" data-action="show-audit" {% if not child %}disabled{% endif %}>{{ icon('reports') }}<span>Hoạt động &amp; Thay đổi</span></button>
+          <button type="button" role="menuitem" data-action="delete-child" class="danger" {% if not child %}disabled{% endif %}>{{ icon('trash') }}<span>Xóa dữ liệu của con</span></button>
+          <button type="button" role="menuitem" data-action="logout">{{ icon('logout') }}<span>Đăng xuất</span></button>
+        </div>
+      </div>
+    </aside>
+    <button type="button" class="sidebar-backdrop" id="navigation-backdrop" data-action="close-menu" aria-label="Đóng menu" tabindex="-1" hidden></button>
+    <div class="workspace">
+      <header class="topbar">
+        <button class="menu-toggle" data-action="menu" aria-controls="navigation" aria-expanded="false">{{ icon('menu') }}<span>Menu</span></button>
+        <span class="breadcrumb">Gia đình <span aria-hidden="true">/</span> <strong>{{ title }}</strong></span>
+        <a class="child-preview" href="/child{% if child %}?child={{ child.id }}{% endif %}">Xem báo cáo của con {{ icon('external') }}</a>
+      </header>
+      <main id="content" class="canvas">
+        <div class="page-heading"><div><h1>{{ title }}</h1>{% if not child %}<p>Thêm hồ sơ của con để bắt đầu đồng hành.</p>{% endif %}</div><button data-action="add-child" class="primary">+ Thêm hồ sơ</button></div>
+        <div class="scope-row"><label><span class="scope-label">Đang xem</span><select id="child-select"><option value="">Chọn hồ sơ</option>{% for c in children %}<option value="{{ c.id }}" {% if child and c.id==child.id %}selected{% endif %}>{{ c.name }}</option>{% endfor %}</select></label><span id="freshness">Đang tải dữ liệu…</span><button data-action="refresh">Làm mới</button></div>
+        <div id="notice" role="status" aria-live="polite"></div>
+        <div id="screen" aria-busy="true"><div class="panel empty">Đang kết nối với KidSafe…</div></div>
+      </main>
+    </div>
+  </div>
+  <dialog id="modal" aria-labelledby="modal-title"><form method="dialog"><button class="dialog-close" aria-label="Đóng">×</button></form><div id="modal-content"></div></dialog>
+</body>
+</html>

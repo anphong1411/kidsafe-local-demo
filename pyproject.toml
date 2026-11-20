@@ -1,0 +1,6 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra"
+asyncio_default_fixture_loop_scope = "function"
+junit_family = "legacy"

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hôm nay của em · KidSafe</title>
+  <link rel="stylesheet" href="/static/app.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body class="child-page" data-preview="{{ 'true' if actor.role != 'child-view' else 'false' }}" data-view="child" data-child="{{ child.id if child else '' }}">
+  <main class="child-canvas">
+    <header class="child-greeting">
+      <h1>Hôm nay của {{ child.name if child else 'em' }}</h1>
+      <p>Chúc em một ngày vui vẻ! Dưới đây là thời gian em đã dùng máy tính hôm nay.</p>
+    </header>
+    <div id="notice" role="status" aria-live="polite"></div>
+    <div id="screen" aria-busy="true"><div class="panel empty">Đang xem thời gian của em…</div></div>
+  </main>
+  <dialog id="modal" aria-labelledby="modal-title">
+    <form method="dialog"><button class="dialog-close" aria-label="Đóng">×</button></form>
+    <div id="modal-content"></div>
+  </dialog>
+</body>
+</html>

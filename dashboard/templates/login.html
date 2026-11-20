@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ 'Tạo tài khoản' if register else 'Đăng nhập' }} · KidSafe</title>
+  {% if register %}<meta name="signup-csrf" content="{{ signup_csrf }}">{% endif %}
+  <link rel="stylesheet" href="/static/app.css">
+  <link rel="stylesheet" href="/static/login.css">
+  <script src="/static/auth.js" defer></script>
+</head>
+<body data-view="{{ 'register' if register else 'login' }}" class="login-page">
+  <main class="login-layout">
+    <section class="login-story" aria-labelledby="login-introduction">
+      <a href="/download" class="brand">
+        <svg viewBox="0 0 32 36" aria-hidden="true"><path d="M16 2 29 7v11c0 8-13 16-13 16S3 26 3 18V7Z"/><path d="m10 17 4 4 8-9"/></svg>
+        KidSafe
+      </a>
+      <p class="eyebrow">Cùng con lớn lên trong thế giới số</p>
+      <h1 id="login-introduction">Một chút cân bằng, nhiều hơn kết nối.</h1>
+      <div class="login-illustration">
+        <img src="/static/images/login-family.png" width="1024" height="572" alt="Bố mẹ đồng hành cùng con, với máy tính, đồng hồ và khiên bảo vệ." decoding="async">
+      </div>
+    </section>
+    <section class="login-form panel" aria-labelledby="login-heading">
+      <h2 id="login-heading">{{ 'Tạo tài khoản phụ huynh' if register else 'Đăng nhập KidSafe' }}</h2>
+      <p class="login-subtitle">{{ 'Tạo tài khoản của bạn để bắt đầu đồng hành cùng con.' if register else 'Chào mừng bạn trở lại. Đăng nhập để tiếp tục.' }}</p>
+      <p id="auth-success" class="auth-success" role="status" hidden>Đã tạo tài khoản thành công. Bạn có thể đăng nhập ngay.</p>
+      <form method="post" id="{{ 'register-form' if register else 'login-form' }}" data-auth="{{ 'register' if register else 'login' }}">
+        {% if register %}
+        <label for="register-name">Tên của bạn
+          <input id="register-name" name="name" autocomplete="name" maxlength="80" required>
+        </label>
+        {% endif %}
+        <label for="login-username">Tài khoản
+          <input id="login-username" name="username" autocomplete="username" maxlength="100" {% if register %}minlength="3" pattern="[A-Za-z0-9_.@\-]+" aria-describedby="username-hint"{% endif %} required>
+        </label>
+        {% if register %}<p id="username-hint" class="input-hint">Ít nhất 3 ký tự, không dấu và không có khoảng trắng.</p>{% endif %}
+        <label for="login-password">Mật khẩu
+          <input id="login-password" type="password" name="password" maxlength="1024" autocomplete="{{ 'new-password' if register else 'current-password' }}" {% if register %}minlength="10" aria-describedby="password-hint"{% endif %} required>
+        </label>
+        {% if register %}
+        <p id="password-hint" class="input-hint">Ít nhất 10 ký tự để bảo vệ tài khoản của gia đình.</p>
+        <label for="confirm-password">Nhập lại mật khẩu
+          <input id="confirm-password" type="password" name="confirm_password" autocomplete="new-password" minlength="10" maxlength="1024" required>
+        </label>
+        {% endif %}
+        <button class="primary" type="submit">{{ 'Tạo tài khoản' if register else 'Đăng nhập' }} <span aria-hidden="true">→</span></button>
+      </form>
+      <p id="notice" role="status" aria-live="polite"></p>
+      <p class="auth-switch">{% if register %}Đã có tài khoản? <a href="/login">Đăng nhập</a>{% else %}Chưa có tài khoản? <a href="/register">Tạo tài khoản</a>{% endif %}</p>
+    </section>
+  </main>
+</body>
+</html>

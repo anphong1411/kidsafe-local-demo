@@ -1,0 +1,19 @@
+fastapi>=0.115,<1
+uvicorn>=0.34,<1
+sqlalchemy>=2.0,<3
+cryptography>=44
+argon2-cffi>=23
+httpx>=0.28,<1
+websockets>=14
+pydantic>=2.10,<3
+jinja2>=3.1
+python-multipart>=0.0.20
+psutil>=6
+pywin32>=308; sys_platform == 'win32'
+pystray>=0.19
+pillow>=11
+tldextract>=5
+tzdata>=2025
+dnslib>=0.9
+pytest>=8
+pytest-asyncio>=0.25

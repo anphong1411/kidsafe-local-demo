@@ -1,0 +1,13 @@
+# Local downloaded reference tools and temporary review output
+/.local-tools/
+/.tmp/
+/.venv/
+/.runtime/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+/.taste-skill/
+/releases/*
+!/releases/KidSafe-Setup-x64.exe
+!/releases/KidSafe-Setup-x64.exe.sha256
